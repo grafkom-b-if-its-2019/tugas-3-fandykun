@@ -1,11 +1,14 @@
 precision mediump float;
 
-attribute vec3 vPosition;
+attribute vec2 vPosition;
 attribute vec3 vColor;
 varying vec3 fColor;
 uniform vec3 theta;
 uniform mat4 projection;
 uniform mat4 view;
+uniform float scale;
+uniform vec3 trans;
+uniform float middleX;
 
 void main() {
   fColor = vColor;
@@ -14,6 +17,13 @@ void main() {
     0.0, 1.0, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, -2.0, 1.0         // Kita geser setiap verteks sejau 2 unit menjauhi kamera, untuk memastikan seluruh bagian kubus ada di antara near dan far.
+  );
+
+  mat4 translateObject = mat4(
+    1.0, 0.0, 0.0, trans.x,
+    0.0, 1.0, 0.0, trans.y,
+    0.0, 0.0, 1.0, trans.z,
+    0.0, 0.0, -2.0, 1.0
   );
 
   vec3 angle = radians(theta);
@@ -42,5 +52,13 @@ void main() {
     0.0, 0.0, 0.0, 1.0
   );
 
-  gl_Position = projection * view * translate * rz * ry * rx * vec4(vPosition, 1.0);
+  mat4 skalasi = mat4(
+    scale, 0.0, 0.0, - middleX * scale + middleX,
+    0.0, 0.6, 0.0, 0.0,
+    0.0, 0.0, 0.6, 0.0,
+    0.0, 0.0, 0.0, 1.0
+  );
+
+  gl_Position = vec4(vPosition, 0.0, 1.0) * translateObject * skalasi;
+  gl_Position = projection * view * translate * gl_Position;
 }

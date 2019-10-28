@@ -20,10 +20,10 @@ void main() {
   );
 
   mat4 translateObject = mat4(
-    1.0, 0.0, 0.0, trans.x,
+    1.0, 0.0, 0.0, 0.325 + trans.x,
     0.0, 1.0, 0.0, trans.y,
     0.0, 0.0, 1.0, trans.z,
-    0.0, 0.0, -2.0, 1.0
+    0.0, 0.0, 0.0, 1.0
   );
 
   vec3 angle = radians(theta);
@@ -44,7 +44,6 @@ void main() {
     0.0, 0.0, 0.0, 1.0
   );
 
-
   mat4 rz = mat4(
     c.z, s.z, 0.0, 0.0,
     -s.z, c.z, 0.0, 0.0,
@@ -53,7 +52,7 @@ void main() {
   );
 
   mat4 skalasi = mat4(
-    scale, 0.0, 0.0, - middleX * scale + middleX,
+    scale * 0.6, 0.0, 0.0, (- middleX * scale + middleX) * 0.6,
     0.0, 0.6, 0.0, 0.0,
     0.0, 0.0, 0.6, 0.0,
     0.0, 0.0, 0.0, 1.0

@@ -13,7 +13,7 @@
   var axis = yAxis;
   var scale = 1.0, scaler = -0.0118;
   var x = 0.0, y = 0.0, z = 0.0;
-  var trans   = new Float32Array([0.005, 0.005, 0.005]);
+  var trans   = new Float32Array([0.01, 0.01, 0.005]);
 
   function main() {
     // Inisialisasi shaders dan program untuk cube
@@ -175,18 +175,18 @@
   function initName() {
     randomize = Math.random();
     nameVertices = new Float32Array([
-      0.55, 0.4, Math.random(), Math.random(), Math.random(),
-      0.47, 0.28, Math.random(), Math.random(), Math.random(),
-      0.1, 0.4, Math.random(), Math.random(), Math.random(),
-      0.2, 0.28, Math.random(), Math.random(), Math.random(),
-      0.1, -0.4, Math.random(), Math.random(), Math.random(),
-      0.2, -0.4, Math.random(), Math.random(), Math.random(),
-      0.2, -0.4, Math.random(), Math.random(), Math.random(),
-      0.2, 0.1, Math.random(), Math.random(), Math.random(),
-      0.2, 0.1, Math.random(), Math.random(), Math.random(),
-      0.55, 0.1, Math.random(), Math.random(), Math.random(),
-      0.2, -0.02, Math.random(), Math.random(), Math.random(),
-      0.55, -0.02, Math.random(), Math.random(), Math.random(),
+      0.55, 0.4, randomize, randomize, randomize,
+      0.47, 0.28, randomize, randomize, randomize,
+      0.1, 0.4, randomize, randomize, randomize,
+      0.2, 0.28, randomize, randomize, randomize,
+      0.1, -0.4, randomize, randomize, randomize,
+      0.2, -0.4, randomize, randomize, randomize,
+      0.2, -0.4, randomize, randomize, randomize,
+      0.2, 0.1, randomize, randomize, randomize,
+      0.2, 0.1, randomize, randomize, randomize,
+      0.55, 0.1, randomize, randomize, randomize,
+      0.2, -0.02, randomize, randomize, randomize,
+      0.55, -0.02, randomize, randomize, randomize,
     ]);
 
     var nameVBO = gl.createBuffer();
@@ -239,19 +239,20 @@
 
     if(scale> 1 || scale<-1) scaler *= -1;
     scale += scaler;
-
-    r_border = 0.05;
-    l_border = -0.5;
+      
+    r_border = 0.5 - 0.225 * Math.abs(scale);
+    l_border = -0.1 + 0.225 * Math.abs(scale);
 
     if(x >= r_border) trans[0] = -0.005;
     else if(x <= l_border) trans[0] = 0.005;
+    
     if(y >= 0.4 || y <= -0.4) trans[1] *= -1;
     if(z >= 0.4 || z <= -0.4) trans[2] *= -1;
     x += trans[0];
     y += trans[1];
     z += trans[2];
 
-    var midX = -0.45 + trans[0];
+    var midX = -0.05 + trans[0];
 
     gl.uniform3fv(transLoc, [x, y, z]);
     gl.uniform1f(scaleLoc, scale);
